@@ -1,10 +1,12 @@
+package br.com.alura.jdbc.factory;
+
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class ConnectionFactory {
+public class  ConnectionFactory {
     private String url = "jdbc:mysql://localhost:3306/loja_virtual";
     private String user = "root";
     private String password = "root";
@@ -17,12 +19,14 @@ public class ConnectionFactory {
         comboPooledDataSource.setUser(user);
         comboPooledDataSource.setPassword(password);
 
-        comboPooledDataSource.setMaxPoolSize(15);
-
         this.dataSource = comboPooledDataSource;
     }
 
-    public Connection recuperarConexao() throws SQLException {
-        return this.dataSource.getConnection();
+    public Connection recuperarConexao() {
+        try {
+            return this.dataSource.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
